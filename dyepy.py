@@ -1034,7 +1034,7 @@ def main(clear: bool = False) -> None:
     
     if clear:
         __import__('os').system('cls')  # Clears screen in Windows
-        __import__('os').system('clear')    # Clears screen in Unix-like
+        __import__('os').system('clear')    # Clears screen in Unix OSs
     
     print("Welcome to DyePy's mini command-line interpreter.")
     print("Enter '!exit' to exit.\n")
@@ -1050,17 +1050,16 @@ def main(clear: bool = False) -> None:
             func = eval(func)
 
         except (SyntaxError, BaseException):
-                func = (
-                    None if func == '' or func.isspace()
-                    else ''.join((
+                if func != '' and not func.isspace():   # Not empty line
+                    func = ''.join((
                         Styles.Background.RED,
                         Styles.Foreground.WHITE,
                         'Invalid statement/function call!',
                         Styles.RESET
                     ))
-                )
 
-        print(func) if func is not None else None
+        if func is not None:
+            print(func)
 
 
 if __name__ == "__main__":
