@@ -498,7 +498,12 @@ class Colors:
         Returns the Hex value from a YIQ color space for many modules
         use Hex values as their default or accepted color code values
         
-        0 ≤ y, i, q ≤ 1, all other values will be clamped
+        NOTE: The following are the acceptable values:
+            0 ≤ y ≤ 1,
+            -0.5959 ≤ i ≤ 0.5959,
+            -0.5229 ≤ q ≤ 0.5229
+        
+        All other values will be clamped between these ranges
         
         Can also be used as a YIQ-to-Hex converter
         """
@@ -909,6 +914,13 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent RGB values of a YIQ color value
+        
+        NOTE: The following are the acceptable values:
+            0 ≤ y ≤ 1
+            -0.5959 ≤ i ≤ 0.5959
+            -0.5229 ≤ q ≤ 0.5229
+        
+        The values will be clamped between these ranges
         """
 
         y = clamp(y)
