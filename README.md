@@ -35,7 +35,7 @@ $ python dyepy.py
 
 __You'll either need to [download dyepy](https://github.com/SFM61319/DyePy/archive/master.zip) or go to the installation folder and run the command from that folder__  
 
-*[that folder]: C:\Users\<UserName>\AppData\Local\Programs\Python\Python3x\lib\site-packages\dyepy\
+*[that folder]: C:\Users\%UserName%\AppData\Local\Programs\Python\Python3x\lib\site-packages\dyepy\
   
 Or you can simply copy/write this example program and run it:  
 ```python
