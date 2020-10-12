@@ -421,604 +421,614 @@ class Colors:
     YELLOW = '#ffff00'
     YELLOWGREEN = '#9acd32'
 
+    # A function to convert RGB values to Hex values
+    @staticmethod
+    def rgb(
+        red: typing.Union[int, float] = 0,
+        green: typing.Union[int, float] = 0,
+        blue: typing.Union[int, float] = 0
+    ) -> str:
+        """
+        Returns the Hex value from an RGB value for many modules use
+        Hex values as their default or accepted color code values
+        
+        Can also be used as a RGB-to-Hex converter
+        """
 
-# A function to convert RGB values to Hex values
-def rgb(
-    red: typing.Union[int, float] = 0,
-    green: typing.Union[int, float] = 0,
-    blue: typing.Union[int, float] = 0
-) -> str:
+        return (
+            f'#{clamp(round(red), 0, 255):02x}'
+            f'{clamp(round(green), 0, 255):02x}'
+            f'{clamp(round(blue), 0, 255):02x}'
+        )
+
+    # A function to convert HSV values to Hex values
+    @staticmethod
+    def hsv(
+        hue: typing.Union[int, float] = 0,
+        saturation: typing.Union[int, float] = 0,
+        value: typing.Union[int, float] = 0
+    ) -> str:
+        """
+        Returns the Hex value from an HSV value for many modules use
+        Hex values as their default or accepted color code values
+        
+        0 ≤ hue ≤ 360; although other values is also acceptable
+        0 ≤ saturation, value ≤ 1; any other value will be clamped
+        
+        NOTE: both HSB and HSV are the same colorspaces
+        
+        Can also be used as a HSV-to-Hex converter
+        """
+
+        return Colors.rgb(*Converters.hsv2rgb(hue, saturation, value))
+
+    hsb = hsv  # Since both are the same
+
+    # A function to convert HSL values to Hex values
+    @staticmethod
+    def hsl(
+        hue: typing.Union[int, float] = 0,
+        saturation: typing.Union[int, float] = 0,
+        luminance: typing.Union[int, float] = 0
+    ) -> str:
+        """
+        Returns the Hex value from an HSL value for many modules use
+        Hex values as their default or accepted color code values
+        
+        0 ≤ hue ≤ 360; although a value > 360 is also acceptable
+        0 ≤ saturation, luminance ≤ 1; any other value will be clamped
+        
+        NOTE: HSV and HSL are different colorspaces, for more information
+        refer to:
+            https://en.wikipedia.org/wiki/HSL_and_HSV
+        
+        Can also be used as a HSL-to-Hex converter
+        """
+
+        return Colors.rgb(*Converters.hsl2rgb(hue, saturation, luminance))
+
+    # A function to convert a YIQ color to Hex values
+    @staticmethod
+    def yiq(
+        y: typing.Union[int, float] = 0,
+        i: typing.Union[int, float] = 0,
+        q: typing.Union[int, float] = 0
+    ) -> str:
+        """
+        Returns the Hex value from a YIQ color space for many modules
+        use Hex values as their default or accepted color code values
+        
+        0 ≤ y, i, q ≤ 1, all other values will be clamped
+        
+        Can also be used as a YIQ-to-Hex converter
+        """
+
+        return Colors.rgb(*Converters.yiq2rgb(y, i, q))
+
+    # A function to convert a CMYK color to Hex values
+    @staticmethod
+    def cmyk(
+        cyan: typing.Union[int, float] = 0,
+        magenta: typing.Union[int, float] = 0,
+        yellow: typing.Union[int, float] = 0,
+        black_key: typing.Union[int, float] = 0
+    ) -> str:
+        """
+        Returns the Hex value from a CMYK color space for many modules
+        use Hex values as their default or accepted color code values
+        
+        0 ≤ cyan, magenta, yellow, black_key ≤ 1, other values will be clamped
+        
+        Can also be used as a CMYK-to-Hex converter
+        """
+
+        return Colors.rgb(*Converters.cmyk2rgb(cyan, magenta, yellow, black_key))
+
+
+class Converters:
     """
-    Returns the Hex value from an RGB value for many modules use
-    Hex values as their default or accepted color code values
+    A class of color space converters (static)
     
-    Can also be used as a RGB-to-Hex converter
-    """
-
-    return (
-        f'#{clamp(round(red), 0, 255):02x}'
-        f'{clamp(round(green), 0, 255):02x}'
-        f'{clamp(round(blue), 0, 255):02x}'
-    )
-
-
-# A function to convert HSV values to Hex values
-def hsv(
-    hue: typing.Union[int, float] = 0,
-    saturation: typing.Union[int, float] = 0,
-    value: typing.Union[int, float] = 0
-) -> str:
-    """
-    Returns the Hex value from an HSV value for many modules use
-    Hex values as their default or accepted color code values
-    
-    0 ≤ hue ≤ 360; although other values is also acceptable
-    0 ≤ saturation, value ≤ 1; any other value will be clamped
-    
-    NOTE: both HSB and HSV are the same colorspaces
-    
-    Can also be used as a HSV-to-Hex converter
-    """
-
-    return rgb(*hsv2rgb(hue, saturation, value))
-
-hsb = hsv  # Since both are the same
-
-
-# A function to convert HSL values to Hex values
-def hsl(
-    hue: typing.Union[int, float] = 0,
-    saturation: typing.Union[int, float] = 0,
-    luminance: typing.Union[int, float] = 0
-) -> str:
-    """
-    Returns the Hex value from an HSL value for many modules use
-    Hex values as their default or accepted color code values
-    
-    0 ≤ hue ≤ 360; although a value > 360 is also acceptable
-    0 ≤ saturation, luminance ≤ 1; any other value will be clamped
-    
-    NOTE: HSV and HSL are different colorspaces, for more information
-    refer to:
-        https://en.wikipedia.org/wiki/HSL_and_HSV
-    
-    Can also be used as a HSL-to-Hex converter
-    """
-
-    return rgb(*hsl2rgb(hue, saturation, luminance))
-
-
-# A function to convert a YIQ color to Hex values
-def yiq(
-    y: typing.Union[int, float] = 0,
-    i: typing.Union[int, float] = 0,
-    q: typing.Union[int, float] = 0
-) -> str:
-    """
-    Returns the Hex value from a YIQ color space for many modules
-    use Hex values as their default or accepted color code values
-    
-    0 ≤ y, i, q ≤ 1, all other values will be clamped
-    
-    Can also be used as a YIQ-to-Hex converter
-    """
-
-    return rgb(*yiq2rgb(y, i, q))
-
-
-# A function to convert a CMYK color to Hex values
-def cmyk(
-    cyan: typing.Union[int, float] = 0,
-    magenta: typing.Union[int, float] = 0,
-    yellow: typing.Union[int, float] = 0,
-    black_key: typing.Union[int, float] = 0
-) -> str:
-    """
-    Returns the Hex value from a CMYK color space for many modules
-    use Hex values as their default or accepted color code values
-    
-    0 ≤ cyan, magenta, yellow, black_key ≤ 1, other values will be clamped
-    
-    Can also be used as a CMYK-to-Hex converter
-    """
-
-    return rgb(*cmyk2rgb(cyan, magenta, yellow, black_key))
-
-
-# A function to convert Hex values to RGB colors
-def hex2rgb(hexcode: typing.Union[str, int] = '#000000')\
-    -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent RGB values of a hex color *hexcode*
-    """
-    
-    if isinstance(hexcode, int):
-        hexcode = hex(hexcode)
-    
-    hexcode = hexcode.replace('0x', '#')
-
-    if len(hexcode) == 4:  # Repetative shortcut
-        hexcode = f'#{hexcode[1]*2}{hexcode[2]*2}{hexcode[3]*2}'
-
-    return (
-        int(hexcode[1:3], 16),
-        int(hexcode[3:5], 16),
-        int(hexcode[5:7], 16)
-    )
-
-
-# A function to convert Hex values to HSV colors
-def hex2hsv(hexcode: typing.Union[str, int] = '#000000')\
-    -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent HSV/HSB values of a hex color *hexcode*
-    """
-
-    return rgb2hsv(*hex2rgb(hexcode))
-
-
-# A function to convert Hex values to HSL colors
-def hex2hsl(hexcode: typing.Union[str, int] = '#000000')\
-    -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent HSL values of a hex color *hexcode*
-    """
-
-    return rgb2hsl(*hex2rgb(hexcode))
-
-
-# A function to convert Hex values to YIQ colors
-def hex2yiq(hexcode: typing.Union[str, int] = '#000000')\
-    -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent YIQ values of a hex color *hexcode*
-    """
-
-    return rgb2yiq(*hex2rgb(hexcode))
-
-
-# A function to convert Hex values to CMYK colors
-def hex2cmyk(hexcode: typing.Union[str, int] = '#000000')\
-    -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent CMYK values of a hex color *hexcode*
-    """
-
-    return rgb2cmyk(*hex2rgb(hexcode))
-
-
-# A function to convert RGB colors to HSV colors
-def rgb2hsv(
-    red: typing.Union[int, float] = 0,
-    green: typing.Union[int, float] = 0,
-    blue: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent HSV values of an RGB color value
+    Usage:
+        dyepy.Converters.hex2rgb(0xffffff)
     """
     
-    red = clamp(round(red), 0, 255) / 255
-    green = clamp(round(green), 0, 255) / 255
-    blue = clamp(round(blue), 0, 255) / 255
+    # A function to convert Hex values to RGB colors
+    @staticmethod
+    def hex2rgb(hexcode: typing.Union[str, int] = '#000000')\
+        -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent RGB values of a hex color *hexcode*
+        """
+        
+        if isinstance(hexcode, int):
+            hexcode = hex(hexcode)
+        
+        hexcode = hexcode.replace('0x', '#')
+
+        if len(hexcode) == 4:  # Repetative shortcut
+            hexcode = f'#{hexcode[1]*2}{hexcode[2]*2}{hexcode[3]*2}'
+
+        return (
+            int(hexcode[1:3], 16),
+            int(hexcode[3:5], 16),
+            int(hexcode[5:7], 16)
+        )
+
+    # A function to convert Hex values to HSV colors
+    @staticmethod
+    def hex2hsv(hexcode: typing.Union[str, int] = '#000000')\
+        -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent HSV/HSB values of a hex color *hexcode*
+        """
+
+        return Converters.rgb2hsv(*Converters.hex2rgb(hexcode))
+
+    # A function to convert Hex values to HSL colors
+    @staticmethod
+    def hex2hsl(hexcode: typing.Union[str, int] = '#000000')\
+        -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent HSL values of a hex color *hexcode*
+        """
+
+        return Converters.rgb2hsl(*Converters.hex2rgb(hexcode))
+
+    # A function to convert Hex values to YIQ colors
+    @staticmethod
+    def hex2yiq(hexcode: typing.Union[str, int] = '#000000')\
+        -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent YIQ values of a hex color *hexcode*
+        """
+
+        return Converters.rgb2yiq(*Converters.hex2rgb(hexcode))
+
+    # A function to convert Hex values to CMYK colors
+    @staticmethod
+    def hex2cmyk(hexcode: typing.Union[str, int] = '#000000')\
+        -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent CMYK values of a hex color *hexcode*
+        """
+
+        return Converters.rgb2cmyk(*Converters.hex2rgb(hexcode))
+
+    # A function to convert RGB colors to HSV colors
+    @staticmethod
+    def rgb2hsv(
+        red: typing.Union[int, float] = 0,
+        green: typing.Union[int, float] = 0,
+        blue: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent HSV values of an RGB color value
+        """
+        
+        red = clamp(round(red), 0, 255) / 255
+        green = clamp(round(green), 0, 255) / 255
+        blue = clamp(round(blue), 0, 255) / 255
+
+        cmax = max(red, green, blue)
+        cmin = min(red, green, blue)
+
+        diff = cmax - cmin
+
+        # Hue calculation
+        if diff == 0:
+            hue = 0
+
+        elif cmax == red:
+            hue = round(60 * (((green - blue) / diff) % 6))
+
+        elif cmax == green:
+            hue = round(60 * (((blue - red) / diff) + 2))
+
+        elif cmax == blue:
+            hue = round(60 * (((red - green) / diff) + 4))
+
+        # Saturation calculation
+        saturation = 0 if cmax == 0 else diff / cmax
+
+        # Value calculation
+        value = cmax
+
+        return (hue, saturation, value)
 
-    cmax = max(red, green, blue)
-    cmin = min(red, green, blue)
+    # A function to convert an RGB color to an HSL color
+    @staticmethod
+    def rgb2hsl(
+        red: typing.Union[int, float] = 0,
+        green: typing.Union[int, float] = 0,
+        blue: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent HSL values of an RGB color value
+        """
+
+        red = clamp(round(red), 0, 255) / 255
+        green = clamp(round(green), 0, 255) / 255
+        blue = clamp(round(blue), 0, 255) / 255
+
+        cmax = max(red, green, blue)
+        cmin = min(red, green, blue)
+
+        diff = cmax - cmin
+
+        # Luminance calculation
+        luminance = (cmax + cmin) / 2
+
+        # Hue calculation
+        if diff == 0:
+            hue = 0
+
+        elif cmax == red:
+            hue = round(60 * (((green - blue) / diff) % 6))
 
-    diff = cmax - cmin
+        elif cmax == green:
+            hue = round(60 * (((blue - red) / diff) + 2))
 
-    # Hue calculation
-    if diff == 0:
-        hue = 0
+        elif cmax == blue:
+            hue = round(60 * (((red - green) / diff) + 4))
 
-    elif cmax == red:
-        hue = round(60 * (((green - blue) / diff) % 6))
+        # Saturation calculation
+        saturation = 0 if diff == 0 else diff / (1 - abs(2 * luminance - 1))
 
-    elif cmax == green:
-        hue = round(60 * (((blue - red) / diff) + 2))
+        return (hue, saturation, luminance)
 
-    elif cmax == blue:
-        hue = round(60 * (((red - green) / diff) + 4))
+    # A function to convert an RGB color to YIQ color
+    @staticmethod
+    def rgb2yiq(
+        red: typing.Union[int, float] = 0,
+        green: typing.Union[int, float] = 0,
+        blue: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent YIQ values of an RGB color value
+        """
 
-    # Saturation calculation
-    saturation = 0 if cmax == 0 else diff / cmax
+        red = clamp(round(red), 0, 255) / 255
+        green = clamp(round(green), 0, 255) / 255
+        blue = clamp(round(blue), 0, 255) / 255
+
+        y = round(clamp(0.30 * red + 0.59 * green + 0.11 * blue) * 255)
+        i = round(clamp(0.74 * (red - y) - 0.27 * (blue - y)) * 255)
+        q = round(clamp(0.48 * (red - y) + 0.41 * (blue - y)) * 255)
+
+        return (y, i, q)
 
-    # Value calculation
-    value = cmax
-
-    return (hue, saturation, value)
-
-
-# A function to convert an RGB color to an HSL color
-def rgb2hsl(
-    red: typing.Union[int, float] = 0,
-    green: typing.Union[int, float] = 0,
-    blue: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent HSL values of an RGB color value
-    """
-
-    red = clamp(round(red), 0, 255) / 255
-    green = clamp(round(green), 0, 255) / 255
-    blue = clamp(round(blue), 0, 255) / 255
-
-    cmax = max(red, green, blue)
-    cmin = min(red, green, blue)
-
-    diff = cmax - cmin
-
-    # Luminance calculation
-    luminance = (cmax + cmin) / 2
-
-    # Hue calculation
-    if diff == 0:
-        hue = 0
-
-    elif cmax == red:
-        hue = round(60 * (((green - blue) / diff) % 6))
-
-    elif cmax == green:
-        hue = round(60 * (((blue - red) / diff) + 2))
-
-    elif cmax == blue:
-        hue = round(60 * (((red - green) / diff) + 4))
-
-    # Saturation calculation
-    saturation = 0 if diff == 0 else diff / (1 - abs(2 * luminance - 1))
-
-    return (hue, saturation, luminance)
-
-
-# A function to convert an RGB color to YIQ color
-def rgb2yiq(
-    red: typing.Union[int, float] = 0,
-    green: typing.Union[int, float] = 0,
-    blue: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent YIQ values of an RGB color value
-    """
-
-    red = clamp(round(red), 0, 255) / 255
-    green = clamp(round(green), 0, 255) / 255
-    blue = clamp(round(blue), 0, 255) / 255
-
-    y = round(clamp(0.30 * red + 0.59 * green + 0.11 * blue) * 255)
-    i = round(clamp(0.74 * (red - y) - 0.27 * (blue - y)) * 255)
-    q = round(clamp(0.48 * (red - y) + 0.41 * (blue - y)) * 255)
-
-    return (y, i, q)
-
-
-# A function to convert an RGB color to CMYK color
-def rgb2cmyk(
-    red: typing.Union[int, float] = 0,
-    green: typing.Union[int, float] = 0,
-    blue: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent CMYK values of an RGB color value
-    """
-
-    red = clamp(round(red), 0, 255) / 255
-    green = clamp(round(green), 0, 255) / 255
-    blue = clamp(round(blue), 0, 255) / 255
-
-    black_key = 1 - max(red, green, blue)
-    white_key = 1 - black_key if black_key != 1 else 1
-
-    cyan = (1 - red - black_key) / white_key
-    magenta = (1 - green - black_key) / white_key
-    yellow = (1 - blue - black_key) / white_key
-
-    if black_key == int(black_key):
-        black_key = int(black_key)
-
-    if cyan == int(cyan):
-        cyan = int(cyan)
-
-    if magenta == int(magenta):
-        magenta = int(magenta)
-
-    if yellow == int(yellow):
-        yellow = int(yellow)
-
-    return (cyan, magenta, yellow, black_key)
-
-
-# A function to convert an HSV color to an RGB color
-def hsv2rgb(
-    hue: typing.Union[int, float] = 0,
-    saturation: typing.Union[int, float] = 0,
-    value: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent RGB values of an HSV color value
-    """
-
-    hue -= 360 * (hue // 360)   # Cycle clamping *hue* in [0, 360]
-    hue /= 360
-
-    saturation = clamp(saturation)
-    value = clamp(value)
-
-    if saturation == 0:
-        red = green = blue = value * 255
-
-        return (red, green, blue)
-
-    i = int(hue * 6)
-    f = hue * 6 - i
-    p = 255 * (value * (1 - saturation))
-    q = 255 * (value * (1 - saturation * f))
-    t = 255 * (value * (1 - saturation * (1 - f)))
-
-    value *= 255
-    i %= 6
-
-    if i == 0:
-        return (value, t, p)
-
-    if i == 1:
-        return (q, value, p)
-
-    if i == 2:
-        return (p, value, t)
-
-    if i == 3:
-        return (p, q, value)
-
-    if i == 4:
-        return (t, p, value)
-
-    if i == 5:
-        return (value, p, q)
-
-
-# A function to convert an HSV color to an HSL color
-def hsv2hsl(
-    hue: typing.Union[int, float] = 0,
-    saturation: typing.Union[int, float] = 0,
-    value: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent HSL values of an HSV color value
-    """
-
-    return rgb2hsl(*hsv2rgb(hue, saturation, value))
-
-
-# A function to convert an HSV color to a YIQ color
-def hsv2yiq(
-    hue: typing.Union[int, float] = 0,
-    saturation: typing.Union[int, float] = 0,
-    value: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent YIQ values of an HSV color value
-    """
-
-    return rgb2yiq(*hsv2rgb(hue, saturation, value))
-
-
-# A function to convert an HSV color to a CMYK color
-def hsv2cmyk(
-    hue: typing.Union[int, float] = 0,
-    saturation: typing.Union[int, float] = 0,
-    value: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent CMYK values of an HSV color value
-    """
-
-    return rgb2cmyk(*hsv2rgb(hue, saturation, value))
-
-
-# A function to convert HSL color to an RGB color
-def hsl2rgb(
-    hue: typing.Union[int, float] = 0,
-    saturation: typing.Union[int, float] = 0,
-    luminance: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent RGB values of an HSL color value
-    """
-
-    hue -= 360 * (hue // 360)
-
-    saturation = clamp(saturation)
-    luminance = clamp(luminance)
-
-    c = (1 - abs(2 * luminance - 1)) * saturation
-    x = c * (1 - abs((hue / 60) % 2 - 1))
-    m = luminance - c / 2
-
-    if 0 <= hue < 60:
-        return (round((c + m) * 255), round((x + m) * 255), 0)
-
-    if 60 <= hue < 120:
-        return (round((x + m) * 255), round((c + m) * 255), 0)
-
-    if 120 <= hue < 180:
-        return (0, round((c + m) * 255), round((x + m) * 255))
-
-    if 180 <= hue < 240:
-        return (0, round((x + m) * 255), round((c + m) * 255))
-
-    if 240 <= hue < 300:
-        return (round((x + m) * 255), 0, round((c + m) * 255))
-
-    if 300 <= hue < 360:
-        return (round((c + m) * 255), 0, round((x + m) * 255))
-
-
-# A function to convert an HSL color to an HSV color
-def hsl2hsv(
-    hue: typing.Union[int, float] = 0,
-    saturation: typing.Union[int, float] = 0,
-    luminance: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent HSV values of an HSL color value
-    """
-
-    return rgb2hsv(*hsl2rgb(hue, saturation, luminance))
-
-
-# A function to convert an HSL color to a YIQ color
-def hsl2yiq(
-    hue: typing.Union[int, float] = 0,
-    saturation: typing.Union[int, float] = 0,
-    luminance: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent YIQ values of an HSL color value
-    """
-
-    return rgb2yiq(*hsl2rgb(hue, saturation, luminance))
-
-
-# A function to convert an HSL color to a CMYK color
-def hsl2cmyk(
-    hue: typing.Union[int, float] = 0,
-    saturation: typing.Union[int, float] = 0,
-    luminance: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent CMYK values of an HSL color value
-    """
-
-    return rgb2cmyk(*hsl2rgb(hue, saturation, luminance))
-
-
-# A function to convert a YIQ color to an RGB color
-def yiq2rgb(
-    y: typing.Union[int, float] = 0,
-    i: typing.Union[int, float] = 0,
-    q: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent RGB values of a YIQ color value
-    """
-
-    y, i, q = clamp(y), clamp(i), clamp(q)
-
-    red = y + 0.94688221709002553 * i + 0.6235565819861433 * q
-    green = y - 0.27478764629897834 * i - 0.63525510791873801 * q
-    blue = y - 1.1085450346420322 * i + 1.70900255284064666 * q
-
-    return (
-        round(clamp(red) * 255),
-        round(clamp(green) * 255),
-        round(clamp(blue) * 255)
-    )
-
-
-# A function to convert a YIQ color to an HSV color
-def yiq2hsv(
-    y: typing.Union[int, float] = 0,
-    i: typing.Union[int, float] = 0,
-    q: typing.Union[int, float] = 0,
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent HSV values of a YIQ color value
-    """
-
-    return rgb2hsv(*yiq2rgb(y, i, q))
-
-
-# A function to convert a YIQ color to an HSL color
-def yiq2hsl(
-    y: typing.Union[int, float] = 0,
-    i: typing.Union[int, float] = 0,
-    q: typing.Union[int, float] = 0,
-) -> typing.Tuple[typing.Union[int, float]]:
-    """Returns the equivalent HSL values of a YIQ color value
-    """
-
-    return rgb2hsl(*yiq2rgb(y, i, q))
-
-
-# A function to convert a YIQ color to a CMYK color
-def yiq2cmyk(
-    y: typing.Union[int, float] = 0,
-    i: typing.Union[int, float] = 0,
-    q: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent CMYK values of a YIQ color value
-    """
-
-    return rgb2cmyk(*yiq2rgb(y, i, q))
-
-
-# A function to convert a CMYK color to an RGB color
-def cmyk2rgb(
-    cyan: typing.Union[int, float] = 0,
-    magenta: typing.Union[int, float] = 0,
-    yellow: typing.Union[int, float] = 0,
-    black_key: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent RGB values of an CMYK color value
-    """
-
-    cyan = clamp(cyan)
-    magenta = clamp(magenta)
-    yellow = clamp(yellow)
-    black_key = clamp(black_key)
-
-    return (
-        round(255 * (1 - cyan) * (1 - black_key)),
-        round(255 * (1 - magenta) * (1 - black_key)),
-        round(255 * (1 - yellow) * (1 - black_key))
-    )
-
-
-# A function to convert a CMYK color to an HSV color
-def cmyk2hsv(
-    cyan: typing.Union[int, float] = 0,
-    magenta: typing.Union[int, float] = 0,
-    yellow: typing.Union[int, float] = 0,
-    black_key: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent HSV values of an CMYK color value
-    """
-
-    return rgb2hsv(*cmyk2rgb(cyan, magenta, yellow, black_key))
-
-
-# A function to convert a CMYK color to an HSL color
-def cmyk2hsl(
-    cyan: typing.Union[int, float] = 0,
-    magenta: typing.Union[int, float] = 0,
-    yellow: typing.Union[int, float] = 0,
-    black_key: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent HSL values of an CMYK color value
-    """
-
-    return rgb2hsl(*cmyk2rgb(cyan, magenta, yellow, black_key))
-
-
-# A function to convert a CMYK color to a YIQ color
-def cmyk2yiq(
-    cyan: typing.Union[int, float] = 0,
-    magenta: typing.Union[int, float] = 0,
-    yellow: typing.Union[int, float] = 0,
-    black_key: typing.Union[int, float] = 0
-) -> typing.Tuple[typing.Union[int, float]]:
-    """
-    Returns the equivalent YIQ values of an CMYK color value
-    """
-
-    return rgb2yiq(*cmyk2rgb(cyan, magenta, yellow, black_key))
+    # A function to convert an RGB color to CMYK color
+    @staticmethod
+    def rgb2cmyk(
+        red: typing.Union[int, float] = 0,
+        green: typing.Union[int, float] = 0,
+        blue: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent CMYK values of an RGB color value
+        """
+
+        red = clamp(round(red), 0, 255) / 255
+        green = clamp(round(green), 0, 255) / 255
+        blue = clamp(round(blue), 0, 255) / 255
+
+        black_key = 1 - max(red, green, blue)
+        white_key = 1 - black_key if black_key != 1 else 1
+
+        cyan = (1 - red - black_key) / white_key
+        magenta = (1 - green - black_key) / white_key
+        yellow = (1 - blue - black_key) / white_key
+
+        if black_key == int(black_key):
+            black_key = int(black_key)
+
+        if cyan == int(cyan):
+            cyan = int(cyan)
+
+        if magenta == int(magenta):
+            magenta = int(magenta)
+
+        if yellow == int(yellow):
+            yellow = int(yellow)
+
+        return (cyan, magenta, yellow, black_key)
+
+    # A function to convert an HSV color to an RGB color
+    @staticmethod
+    def hsv2rgb(
+        hue: typing.Union[int, float] = 0,
+        saturation: typing.Union[int, float] = 0,
+        value: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent RGB values of an HSV color value
+        """
+
+        hue -= 360 * (hue // 360)   # Cycle clamping *hue* in [0, 360]
+        hue /= 360
+
+        saturation = clamp(saturation)
+        value = clamp(value)
+
+        if saturation == 0:
+            red = green = blue = value * 255
+
+            return (red, green, blue)
+
+        i = int(hue * 6)
+        f = hue * 6 - i
+        p = 255 * (value * (1 - saturation))
+        q = 255 * (value * (1 - saturation * f))
+        t = 255 * (value * (1 - saturation * (1 - f)))
+
+        value *= 255
+        i %= 6
+
+        if i == 0:
+            return (value, t, p)
+
+        if i == 1:
+            return (q, value, p)
+
+        if i == 2:
+            return (p, value, t)
+
+        if i == 3:
+            return (p, q, value)
+
+        if i == 4:
+            return (t, p, value)
+
+        if i == 5:
+            return (value, p, q)
+
+    # A function to convert an HSV color to an HSL color
+    @staticmethod
+    def hsv2hsl(
+        hue: typing.Union[int, float] = 0,
+        saturation: typing.Union[int, float] = 0,
+        value: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent HSL values of an HSV color value
+        """
+
+        return Converters.rgb2hsl(*Converters.hsv2rgb(hue, saturation, value))
+
+    # A function to convert an HSV color to a YIQ color
+    @staticmethod
+    def hsv2yiq(
+        hue: typing.Union[int, float] = 0,
+        saturation: typing.Union[int, float] = 0,
+        value: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent YIQ values of an HSV color value
+        """
+
+        return Converters.rgb2yiq(*Converters.hsv2rgb(hue, saturation, value))
+
+    # A function to convert an HSV color to a CMYK color
+    @staticmethod
+    def hsv2cmyk(
+        hue: typing.Union[int, float] = 0,
+        saturation: typing.Union[int, float] = 0,
+        value: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent CMYK values of an HSV color value
+        """
+
+        return Converters.rgb2cmyk(*Converters.hsv2rgb(hue, saturation, value))
+
+    # A function to convert HSL color to an RGB color
+    @staticmethod
+    def hsl2rgb(
+        hue: typing.Union[int, float] = 0,
+        saturation: typing.Union[int, float] = 0,
+        luminance: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent RGB values of an HSL color value
+        """
+
+        hue -= 360 * (hue // 360)
+
+        saturation = clamp(saturation)
+        luminance = clamp(luminance)
+
+        c = (1 - abs(2 * luminance - 1)) * saturation
+        x = c * (1 - abs((hue / 60) % 2 - 1))
+        m = luminance - c / 2
+
+        if 0 <= hue < 60:
+            return (round((c + m) * 255), round((x + m) * 255), 0)
+
+        if 60 <= hue < 120:
+            return (round((x + m) * 255), round((c + m) * 255), 0)
+
+        if 120 <= hue < 180:
+            return (0, round((c + m) * 255), round((x + m) * 255))
+
+        if 180 <= hue < 240:
+            return (0, round((x + m) * 255), round((c + m) * 255))
+
+        if 240 <= hue < 300:
+            return (round((x + m) * 255), 0, round((c + m) * 255))
+
+        if 300 <= hue < 360:
+            return (round((c + m) * 255), 0, round((x + m) * 255))
+
+    # A function to convert an HSL color to an HSV color
+    @staticmethod
+    def hsl2hsv(
+        hue: typing.Union[int, float] = 0,
+        saturation: typing.Union[int, float] = 0,
+        luminance: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent HSV values of an HSL color value
+        """
+
+        return Converters.rgb2hsv(*Converters.hsl2rgb(hue, saturation, luminance))
+
+    # A function to convert an HSL color to a YIQ color
+    @staticmethod
+    def hsl2yiq(
+        hue: typing.Union[int, float] = 0,
+        saturation: typing.Union[int, float] = 0,
+        luminance: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent YIQ values of an HSL color value
+        """
+
+        return Converters.rgb2yiq(*Converters.hsl2rgb(hue, saturation, luminance))
+
+    # A function to convert an HSL color to a CMYK color
+    @staticmethod
+    def hsl2cmyk(
+        hue: typing.Union[int, float] = 0,
+        saturation: typing.Union[int, float] = 0,
+        luminance: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent CMYK values of an HSL color value
+        """
+
+        return Converters.rgb2cmyk(*Converters.hsl2rgb(hue, saturation, luminance))
+
+    # A function to convert a YIQ color to an RGB color
+    @staticmethod
+    def yiq2rgb(
+        y: typing.Union[int, float] = 0,
+        i: typing.Union[int, float] = 0,
+        q: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent RGB values of a YIQ color value
+        """
+
+        y, i, q = clamp(y), clamp(i), clamp(q)
+
+        red = y + 0.94688221709002553 * i + 0.6235565819861433 * q
+        green = y - 0.27478764629897834 * i - 0.63525510791873801 * q
+        blue = y - 1.1085450346420322 * i + 1.70900255284064666 * q
+
+        return (
+            round(clamp(red) * 255),
+            round(clamp(green) * 255),
+            round(clamp(blue) * 255)
+        )
+
+    # A function to convert a YIQ color to an HSV color
+    @staticmethod
+    def yiq2hsv(
+        y: typing.Union[int, float] = 0,
+        i: typing.Union[int, float] = 0,
+        q: typing.Union[int, float] = 0,
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent HSV values of a YIQ color value
+        """
+
+        return Converters.rgb2hsv(*Converters.yiq2rgb(y, i, q))
+
+    # A function to convert a YIQ color to an HSL color
+    @staticmethod
+    def yiq2hsl(
+        y: typing.Union[int, float] = 0,
+        i: typing.Union[int, float] = 0,
+        q: typing.Union[int, float] = 0,
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent HSL values of a YIQ color value
+        """
+
+        return Converters.rgb2hsl(*Converters.yiq2rgb(y, i, q))
+
+    # A function to convert a YIQ color to a CMYK color
+    @staticmethod
+    def yiq2cmyk(
+        y: typing.Union[int, float] = 0,
+        i: typing.Union[int, float] = 0,
+        q: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent CMYK values of a YIQ color value
+        """
+
+        return Converters.rgb2cmyk(*Converters.yiq2rgb(y, i, q))
+
+    # A function to convert a CMYK color to an RGB color
+    @staticmethod
+    def cmyk2rgb(
+        cyan: typing.Union[int, float] = 0,
+        magenta: typing.Union[int, float] = 0,
+        yellow: typing.Union[int, float] = 0,
+        black_key: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent RGB values of an CMYK color value
+        """
+
+        cyan = clamp(cyan)
+        magenta = clamp(magenta)
+        yellow = clamp(yellow)
+        black_key = clamp(black_key)
+
+        return (
+            round(255 * (1 - cyan) * (1 - black_key)),
+            round(255 * (1 - magenta) * (1 - black_key)),
+            round(255 * (1 - yellow) * (1 - black_key))
+        )
+
+    # A function to convert a CMYK color to an HSV color
+    @staticmethod
+    def cmyk2hsv(
+        cyan: typing.Union[int, float] = 0,
+        magenta: typing.Union[int, float] = 0,
+        yellow: typing.Union[int, float] = 0,
+        black_key: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent HSV values of an CMYK color value
+        """
+
+        return Converters.rgb2hsv(*Converters.cmyk2rgb(cyan, magenta, yellow, black_key))
+
+    # A function to convert a CMYK color to an HSL color
+    @staticmethod
+    def cmyk2hsl(
+        cyan: typing.Union[int, float] = 0,
+        magenta: typing.Union[int, float] = 0,
+        yellow: typing.Union[int, float] = 0,
+        black_key: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent HSL values of an CMYK color value
+        """
+
+        return Converters.rgb2hsl(*Converters.cmyk2rgb(cyan, magenta, yellow, black_key))
+
+    # A function to convert a CMYK color to a YIQ color
+    @staticmethod
+    def cmyk2yiq(
+        cyan: typing.Union[int, float] = 0,
+        magenta: typing.Union[int, float] = 0,
+        yellow: typing.Union[int, float] = 0,
+        black_key: typing.Union[int, float] = 0
+    ) -> typing.Tuple[typing.Union[int, float]]:
+        """
+        Returns the equivalent YIQ values of an CMYK color value
+        """
+
+        return Converters.rgb2yiq(*Converters.cmyk2rgb(cyan, magenta, yellow, black_key))
 
 
 def getrandomcolor() -> str:
-    return rgb(_randint(0, 255), _randint(0, 255), _randint(0, 255))
+    return Colors.rgb(_randint(0, 255), _randint(0, 255), _randint(0, 255))
 
 
 def main(clear: bool = False) -> None:
