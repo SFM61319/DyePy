@@ -30,8 +30,8 @@ def test_Colors():
     assert dyepy.Colors.hsl(207, 1, 0.4215686274509804) == '#0078d7'
     assert dyepy.Colors.hsl(141, 0.7289719626168223, 0.4196078431372549) == '#1db954'
     
-    assert dyepy.Colors.yiq(94, 0, 0) == '#0078d7'
-    assert dyepy.Colors.yiq(127, 0, 0) == '#1db954'
+    assert dyepy.Colors.yiq(0.37235294117647055, -0.4004313725490196, 0.016941176470588265) == '#0078d7'
+    assert dyepy.Colors.yiq(0.4974196078431372, -0.23707450980392158, -0.25265882352941177) == '#1db954'
     
     assert dyepy.Colors.cmyk(1, 0.4418604651162791, 0, 0.1568627450980392) == '#0078d7'
     assert dyepy.Colors.cmyk(0.8432432432432432, 0, 0.545945945945946, 0.27450980392156865) == '#1db954'
@@ -50,8 +50,8 @@ def test_Converters():
     assert dyepy.Converters.hex2hsl('#0078d7') == (207, 1, 0.4215686274509804)
     assert dyepy.Converters.hex2hsl('#1db954') == (141, 0.7289719626168223, 0.4196078431372549)
     
-    assert dyepy.Converters.hex2yiq('#0078d7') == (94, 0, 0)
-    assert dyepy.Converters.hex2yiq('#1db954') == (127, 0, 0)
+    assert dyepy.Converters.hex2yiq('#0078d7') == (0.37235294117647055, -0.4004313725490196, 0.016941176470588265)
+    assert dyepy.Converters.hex2yiq('#1db954') == (0.4974196078431372, -0.23707450980392158, -0.25265882352941177)
     
     assert dyepy.Converters.hex2cmyk('#0078d7') == (1, 0.4418604651162791, 0, 0.1568627450980392)
     assert dyepy.Converters.hex2cmyk('#1db954') == (0.8432432432432432, 0, 0.545945945945946, 0.27450980392156865)
@@ -63,8 +63,8 @@ def test_Converters():
     assert dyepy.Converters.rgb2hsl(0, 120, 215) == (207, 1, 0.4215686274509804)
     assert dyepy.Converters.rgb2hsl(29, 185, 84) == (141, 0.7289719626168223, 0.4196078431372549)
     
-    assert dyepy.Converters.rgb2yiq(0, 120, 215) == (94, 0, 0)
-    assert dyepy.Converters.rgb2yiq(29, 185, 84) == (127, 0, 0)
+    assert dyepy.Converters.rgb2yiq(0, 120, 215) == (0.37235294117647055, -0.4004313725490196, 0.016941176470588265)
+    assert dyepy.Converters.rgb2yiq(29, 185, 84) == (0.4974196078431372, -0.23707450980392158, -0.25265882352941177)
     
     assert dyepy.Converters.rgb2cmyk(0, 120, 215) == (1, 0.4418604651162791, 0, 0.1568627450980392)
     assert dyepy.Converters.rgb2cmyk(29, 185, 84) == (0.8432432432432432, 0, 0.545945945945946, 0.27450980392156865)
