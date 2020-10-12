@@ -182,7 +182,7 @@ class Styles:
             print(Styles.Fg.rgb(0, 120, 215), 'Windows Default Blue', Styles.RESET)
             print(Styles.Fg.rgb(29, 185, 84), 'Spotify Green', Styles.RESET)
             
-            Note: 0 ≤ r, g, b ≤ 255
+            NOTE: 0 ≤ r, g, b ≤ 255
             """
 
             return (
@@ -248,7 +248,7 @@ class Styles:
             print(Styles.Bg.rgb(0, 120, 215), 'Windows Default Blue', Styles.RESET)
             print(Styles.Bg.rgb(29, 185, 84), 'Spotify Green', Styles.RESET)
             
-            Note: 0 ≤ red, green, blue ≤ 255
+            NOTE: 0 ≤ red, green, blue ≤ 255
             """
 
             return (
@@ -478,7 +478,7 @@ def hsl(
     0 ≤ hue ≤ 360; although a value > 360 is also acceptable
     0 ≤ saturation, luminance ≤ 1; any other value will be clamped
     
-    Note: HSV and HSL are different colorspaces, for more information
+    NOTE: HSV and HSL are different colorspaces, for more information
     refer to:
         https://en.wikipedia.org/wiki/HSL_and_HSV
     
@@ -757,24 +757,22 @@ def hsv2rgb(
     i %= 6
 
     if i == 0:
-        red, green, blue = value, t, p
+        return (value, t, p)
 
-    elif i == 1:
-        red, green, blue = q, value, p
+    if i == 1:
+        return (q, value, p)
 
-    elif i == 2:
-        red, green, blue = p, value, t
+    if i == 2:
+        return (p, value, t)
 
-    elif i == 3:
-        red, green, blue = p, q, value
+    if i == 3:
+        return (p, q, value)
 
-    elif i == 4:
-        red, green, blue = t, p, value
+    if i == 4:
+        return (t, p, value)
 
-    elif i == 5:
-        red, green, blue = value, p, q
-
-    return (red, green, blue)
+    if i == 5:
+        return (value, p, q)
 
 
 # A function to convert an HSV color to an HSL color
