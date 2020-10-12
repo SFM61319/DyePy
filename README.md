@@ -46,9 +46,6 @@ try:
 except (ModuleNotFoundError, ImportError):
     from tkinter import Tk, Button  # Python 3
 
-# Import randint for random integers in a range
-from random import randint  # Bad practice, but no collisions possible
-
 
 # Import this module to the program
 import dyepy
