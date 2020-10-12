@@ -261,7 +261,7 @@ class Styles:
     Bg = Background
 
 
-# A class to use pre-defined colors from CSS4
+# A class to use pre-defined colors from CSS4 and get HEX values
 class Colors:
     """
     Colors class
@@ -525,6 +525,7 @@ class Colors:
         return Colors.rgb(*Converters.cmyk2rgb(cyan, magenta, yellow, black_key))
 
 
+# A class to convert colors to-fro different colorspaces
 class Converters:
     """
     A class of color space converters (static)
