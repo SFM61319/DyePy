@@ -1060,7 +1060,7 @@ def main(clear: bool = False) -> None:
             print(func)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     import sys
     
     main('--cls' in sys.argv or '--clear' in sys.argv)
