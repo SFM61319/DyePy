@@ -693,9 +693,9 @@ class Converters:
         green = clamp(round(green), 0, 255) / 255
         blue = clamp(round(blue), 0, 255) / 255
 
-        y = round(clamp(0.30 * red + 0.59 * green + 0.11 * blue) * 255)
-        i = round(clamp(0.74 * (red - y) - 0.27 * (blue - y)) * 255)
-        q = round(clamp(0.48 * (red - y) + 0.41 * (blue - y)) * 255)
+        y = clamp(0.299*red+0.587*green+0.114*blue)
+        i = clamp(0.596*red-0.274*green-0.322*blue, -0.5959, 0.5959)
+        q = clamp(0.211*red-0.523*green+0.312*blue, -0.5229, 0.5229)
 
         return (y, i, q)
 
@@ -911,11 +911,13 @@ class Converters:
         Returns the equivalent RGB values of a YIQ color value
         """
 
-        y, i, q = clamp(y), clamp(i), clamp(q)
+        y = clamp(y)
+        i = clamp(i, -0.5959, 0.5959)
+        q = clamp(q, -0.5229, 0.5229)
 
-        red = y + 0.94688221709002553 * i + 0.6235565819861433 * q
-        green = y - 0.27478764629897834 * i - 0.63525510791873801 * q
-        blue = y - 1.1085450346420322 * i + 1.70900255284064666 * q
+        red = y + 0.956 * i + 0.621 * q
+        green = y - 0.272 * i - 0.647 * q
+        blue = y - 1.11 * i + 1.7 * q
 
         return (
             round(clamp(red) * 255),
