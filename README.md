@@ -59,7 +59,7 @@ def change_bgcolor():
     
     global root
     
-    root.configure(background=dyepy.getrandomcolor())
+    root.configure(background=dyepy.Colors.getrandomcolor())
 
 
 root = Tk()
