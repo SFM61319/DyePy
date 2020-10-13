@@ -528,6 +528,10 @@ class Colors:
         """
 
         return Colors.rgb(*Converters.cmyk2rgb(cyan, magenta, yellow, black_key))
+    
+    @staticmethod
+    def getrandomcolor() -> str:
+        return Colors.rgb(_randint(0, 255), _randint(0, 255), _randint(0, 255))
 
 
 # A class to convert colors to-fro different colorspaces
@@ -1040,10 +1044,6 @@ class Converters:
         """
 
         return Converters.rgb2yiq(*Converters.cmyk2rgb(cyan, magenta, yellow, black_key))
-
-
-def getrandomcolor() -> str:
-    return Colors.rgb(_randint(0, 255), _randint(0, 255), _randint(0, 255))
 
 
 def main(clear: bool = False) -> None:
