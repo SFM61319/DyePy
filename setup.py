@@ -18,7 +18,8 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     url=__github__,
     license='MIT',
-    packages=setuptools.find_packages(),
+    py_modules=['dyepy'],
+    packages=[],
     install_requires=['typing'],
     classifiers=[
         'Programming Language :: Python :: 3',
