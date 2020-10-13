@@ -745,43 +745,32 @@ class Converters:
         Returns the equivalent RGB values of an HSV color value
         """
 
-        hue -= 360 * (hue // 360)   # Cycle clamping *hue* in [0, 360]
-        hue /= 360
+        hue -= 360 * (hue // 360)   # Cycle clamping *hue* in [0, 360)
 
         saturation = clamp(saturation)
         value = clamp(value)
-
-        if saturation == 0:
-            red = green = blue = value * 255
-
-            return (red, green, blue)
-
-        i = int(hue * 6)
-        f = hue * 6 - i
-        p = 255 * (value * (1 - saturation))
-        q = 255 * (value * (1 - saturation * f))
-        t = 255 * (value * (1 - saturation * (1 - f)))
-
-        value *= 255
-        i %= 6
-
-        if i == 0:
-            return (value, t, p)
-
-        if i == 1:
-            return (q, value, p)
-
-        if i == 2:
-            return (p, value, t)
-
-        if i == 3:
-            return (p, q, value)
-
-        if i == 4:
-            return (t, p, value)
-
-        if i == 5:
-            return (value, p, q)
+        
+        c = value * saturation
+        x = c * (1 - abs((hue / 60) % 2 - 1))
+        m = value - c
+        
+        if 0 <= hue < 60:
+            return (round((c+m)*255), round((x+m)*255), round(m*255))
+        
+        if 60 <= hue < 120:
+            return (round((x+m)*255), round((c+m)*255), round(m*255))
+        
+        if 120 <= hue < 180:
+            return (round(m*255), round((c+m)*255), round((x+m)*255))
+        
+        if 180 <= hue < 240:
+            return (round(m*255), round((x+m)*255), round((c+m)*255))
+        
+        if 240 <= hue < 300:
+            return (round((x+m)*255), round(m*255), round((c+m)*255))
+        
+        if 300 <= hue < 360:
+            return (round((c+m)*255), round(m*255), round((x+m)*255))
 
     # A function to convert an HSV color to an HSL color
     @staticmethod
@@ -843,22 +832,22 @@ class Converters:
         m = luminance - c / 2
 
         if 0 <= hue < 60:
-            return (round((c + m) * 255), round((x + m) * 255), 0)
+            return (round((c+m)*255), round((x+m)*255), round(m*255))
 
         if 60 <= hue < 120:
-            return (round((x + m) * 255), round((c + m) * 255), 0)
+            return (round((x+m)*255), round((c+m)*255), round(m*255))
 
         if 120 <= hue < 180:
-            return (0, round((c + m) * 255), round((x + m) * 255))
+            return (round(m*255), round((c+m)*255), round((x+m)*255))
 
         if 180 <= hue < 240:
-            return (0, round((x + m) * 255), round((c + m) * 255))
+            return (round(m*255), round((x+m)*255), round((c+m)*255))
 
         if 240 <= hue < 300:
-            return (round((x + m) * 255), 0, round((c + m) * 255))
+            return (round((x+m)*255), round(m*255), round((c+m)*255))
 
         if 300 <= hue < 360:
-            return (round((c + m) * 255), 0, round((x + m) * 255))
+            return (round((c+m)*255), round(m*255), round((x+m)*255))
 
     # A function to convert an HSL color to an HSV color
     @staticmethod
