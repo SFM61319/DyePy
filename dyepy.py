@@ -724,23 +724,13 @@ class Converters:
         blue = clamp(round(blue), 0, 255) / 255
 
         black_key = 1 - max(red, green, blue)
-        white_key = 1 - black_key if black_key != 1 else 1
+        
+        if black_key == 1:
+            return (0, 0, 0, 1)
 
-        cyan = (1 - red - black_key) / white_key
-        magenta = (1 - green - black_key) / white_key
-        yellow = (1 - blue - black_key) / white_key
-
-        if black_key == int(black_key):
-            black_key = int(black_key)
-
-        if cyan == int(cyan):
-            cyan = int(cyan)
-
-        if magenta == int(magenta):
-            magenta = int(magenta)
-
-        if yellow == int(yellow):
-            yellow = int(yellow)
+        cyan = (1 - black_key - red) / (1 - black_key)
+        magenta = (1 - black_key - green) / (1 - black_key)
+        yellow = (1 - black_key - blue) / (1 - black_key)
 
         return (cyan, magenta, yellow, black_key)
 
