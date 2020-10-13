@@ -624,27 +624,33 @@ class Converters:
         cmin = min(red, green, blue)
 
         diff = cmax - cmin
+        
+        # Value calculation
+        value = cmax
+        
+        # Saturation calculation
+        saturation = 0 if cmax == 0 else diff / cmax
 
         # Hue calculation
         if diff == 0:
             hue = 0
+            
+            return (hue, saturation, value)
 
-        elif cmax == red:
+        if cmax == red:
             hue = round(60 * (((green - blue) / diff) % 6))
+            
+            return (hue, saturation, value)
 
-        elif cmax == green:
+        if cmax == green:
             hue = round(60 * (((blue - red) / diff) + 2))
+            
+            return (hue, saturation, value)
 
-        elif cmax == blue:
+        if cmax == blue:
             hue = round(60 * (((red - green) / diff) + 4))
-
-        # Saturation calculation
-        saturation = 0 if cmax == 0 else diff / cmax
-
-        # Value calculation
-        value = cmax
-
-        return (hue, saturation, value)
+            
+            return (hue, saturation, value)
 
     # A function to convert an RGB color to an HSL color
     @staticmethod
@@ -668,24 +674,30 @@ class Converters:
 
         # Luminance calculation
         luminance = (cmax + cmin) / 2
+        
+        # Saturation calculation
+        saturation = diff / (1 - abs(2 * luminance - 1))
 
         # Hue calculation
         if diff == 0:
             hue = 0
+            
+            return (hue, saturation, luminance)
 
-        elif cmax == red:
+        if cmax == red:
             hue = round(60 * (((green - blue) / diff) % 6))
+            
+            return (hue, saturation, luminance)
 
-        elif cmax == green:
+        if cmax == green:
             hue = round(60 * (((blue - red) / diff) + 2))
+            
+            return (hue, saturation, luminance)
 
-        elif cmax == blue:
+        if cmax == blue:
             hue = round(60 * (((red - green) / diff) + 4))
-
-        # Saturation calculation
-        saturation = 0 if diff == 0 else diff / (1 - abs(2 * luminance - 1))
-
-        return (hue, saturation, luminance)
+            
+            return (hue, saturation, luminance)
 
     # A function to convert an RGB color to YIQ color
     @staticmethod
