@@ -40,9 +40,9 @@ def clamp(
     closer to the value becomes the clamped value.
     
     E.g.:
-    clamp(0, 0.5, 1) -> 0.5;
-    clamp(0, 2, 1) -> 1;
-    clamp(0, -1, 1) -> 0;
+    clamp() -> clamp(0.5, 0, 1) -> 0.5;
+    clamp(2, 0, 1) -> 1;
+    clamp(-1, 0, 1) -> 0;
     """
 
     if value < minimum:
