@@ -435,6 +435,8 @@ class Colors:
         Returns the Hex value from an RGB value for many modules use
         Hex values as their default or accepted color code values
         
+        NOTE: 0 ≤ red, green, blue ≤ 255
+        
         Can also be used as a RGB-to-Hex converter
         """
 
@@ -455,7 +457,7 @@ class Colors:
         Returns the Hex value from an HSV value for many modules use
         Hex values as their default or accepted color code values
         
-        0 ≤ hue ≤ 360; although other values is also acceptable
+        0 ≤ hue ≤ 360; although other values are also acceptable
         0 ≤ saturation, value ≤ 1; any other value will be clamped
         
         NOTE: both HSB and HSV are the same colorspaces
@@ -478,7 +480,7 @@ class Colors:
         Returns the Hex value from an HSL value for many modules use
         Hex values as their default or accepted color code values
         
-        0 ≤ hue ≤ 360; although a value > 360 is also acceptable
+        0 ≤ hue ≤ 360; although a other values are also acceptable
         0 ≤ saturation, luminance ≤ 1; any other value will be clamped
         
         NOTE: HSV and HSL are different colorspaces, for more information
@@ -619,6 +621,8 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent HSV values of an RGB color value
+        
+        NOTE: 0 ≤ red, green, blue ≤ 255, all other values will be clamped
         """
         
         red = clamp(round(red), 0, 255) / 255
@@ -666,6 +670,8 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent HSL values of an RGB color value
+        
+        NOTE: 0 ≤ red, green, blue ≤ 255, all other values will be clamped
         """
 
         red = clamp(round(red), 0, 255) / 255
@@ -713,6 +719,8 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent YIQ values of an RGB color value
+        
+        NOTE: 0 ≤ red, green, blue ≤ 255, all other values will be clamped
         """
 
         red = clamp(round(red), 0, 255) / 255
@@ -734,6 +742,8 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent CMYK values of an RGB color value
+        
+        NOTE: 0 ≤ red, green, blue ≤ 255, all other values will be clamped
         """
 
         red = clamp(round(red), 0, 255) / 255
@@ -760,9 +770,13 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent RGB values of an HSV color value
+        
+        0 ≤ hue ≤ 360; although other values are also acceptable
+        0 ≤ saturation, value ≤ 1; any other value will be clamped
         """
 
-        hue -= 360 * (hue // 360)   # Cycle clamping *hue* in [0, 360)
+        # Cycle clamping *hue* in [0, 360)
+        hue = hue-360*(hue//360) if hue >= 0 else hue+360*(-hue//360+1)
 
         saturation = clamp(saturation)
         value = clamp(value)
@@ -798,6 +812,9 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent HSL values of an HSV color value
+        
+        0 ≤ hue ≤ 360; although other values are also acceptable
+        0 ≤ saturation, value ≤ 1; any other value will be clamped
         """
 
         return Converters.rgb2hsl(*Converters.hsv2rgb(hue, saturation, value))
@@ -811,6 +828,9 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent YIQ values of an HSV color value
+        
+        0 ≤ hue ≤ 360; although other values are also acceptable
+        0 ≤ saturation, value ≤ 1; any other value will be clamped
         """
 
         return Converters.rgb2yiq(*Converters.hsv2rgb(hue, saturation, value))
@@ -824,6 +844,9 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent CMYK values of an HSV color value
+        
+        0 ≤ hue ≤ 360; although other values are also acceptable
+        0 ≤ saturation, value ≤ 1; any other value will be clamped
         """
 
         return Converters.rgb2cmyk(*Converters.hsv2rgb(hue, saturation, value))
@@ -837,9 +860,13 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent RGB values of an HSL color value
+        
+        0 ≤ hue ≤ 360; although other values are also acceptable
+        0 ≤ saturation, luminance ≤ 1; any other value will be clamped
         """
-
-        hue -= 360 * (hue // 360)
+        
+        # Cycling clamping *hue* in [0, 360)
+        hue = hue-360*(hue//360) if hue >= 0 else hue+360*(-hue//360+1)
 
         saturation = clamp(saturation)
         luminance = clamp(luminance)
@@ -875,6 +902,9 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent HSV values of an HSL color value
+        
+        0 ≤ hue ≤ 360; although other values are also acceptable
+        0 ≤ saturation, luminance ≤ 1; any other value will be clamped
         """
 
         return Converters.rgb2hsv(*Converters.hsl2rgb(hue, saturation, luminance))
@@ -888,6 +918,9 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent YIQ values of an HSL color value
+        
+        0 ≤ hue ≤ 360; although other values are also acceptable
+        0 ≤ saturation, luminance ≤ 1; any other value will be clamped
         """
 
         return Converters.rgb2yiq(*Converters.hsl2rgb(hue, saturation, luminance))
@@ -901,6 +934,9 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent CMYK values of an HSL color value
+        
+        0 ≤ hue ≤ 360; although other values are also acceptable
+        0 ≤ saturation, luminance ≤ 1; any other value will be clamped
         """
 
         return Converters.rgb2cmyk(*Converters.hsl2rgb(hue, saturation, luminance))
@@ -946,6 +982,13 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent HSV values of a YIQ color value
+        
+        NOTE: The following are the acceptable values:
+            0 ≤ y ≤ 1
+            -0.5959 ≤ i ≤ 0.5959
+            -0.5229 ≤ q ≤ 0.5229
+        
+        The values will be clamped between these ranges
         """
 
         return Converters.rgb2hsv(*Converters.yiq2rgb(y, i, q))
@@ -959,6 +1002,13 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent HSL values of a YIQ color value
+        
+        NOTE: The following are the acceptable values:
+            0 ≤ y ≤ 1
+            -0.5959 ≤ i ≤ 0.5959
+            -0.5229 ≤ q ≤ 0.5229
+        
+        The values will be clamped between these ranges
         """
 
         return Converters.rgb2hsl(*Converters.yiq2rgb(y, i, q))
@@ -972,6 +1022,13 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent CMYK values of a YIQ color value
+        
+        NOTE: The following are the acceptable values:
+            0 ≤ y ≤ 1
+            -0.5959 ≤ i ≤ 0.5959
+            -0.5229 ≤ q ≤ 0.5229
+        
+        The values will be clamped between these ranges
         """
 
         return Converters.rgb2cmyk(*Converters.yiq2rgb(y, i, q))
@@ -986,6 +1043,13 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent RGB values of an CMYK color value
+        
+        NOTE: The following are the acceptable values:
+            0 ≤ y ≤ 1
+            -0.5959 ≤ i ≤ 0.5959
+            -0.5229 ≤ q ≤ 0.5229
+        
+        The values will be clamped between these ranges
         """
 
         cyan = clamp(cyan)
@@ -1009,6 +1073,8 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent HSV values of an CMYK color value
+        
+        NOTE: 0 ≤ cyan, magenta, yellow, black_key ≤ 1
         """
 
         return Converters.rgb2hsv(*Converters.cmyk2rgb(cyan, magenta, yellow, black_key))
@@ -1023,6 +1089,8 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent HSL values of an CMYK color value
+        
+        NOTE: 0 ≤ cyan, magenta, yellow, black_key ≤ 1
         """
 
         return Converters.rgb2hsl(*Converters.cmyk2rgb(cyan, magenta, yellow, black_key))
@@ -1037,6 +1105,8 @@ class Converters:
     ) -> typing.Tuple[typing.Union[int, float]]:
         """
         Returns the equivalent YIQ values of an CMYK color value
+        
+        NOTE: 0 ≤ cyan, magenta, yellow, black_key ≤ 1
         """
 
         return Converters.rgb2yiq(*Converters.cmyk2rgb(cyan, magenta, yellow, black_key))
