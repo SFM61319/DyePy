@@ -20,7 +20,7 @@ setuptools.setup(
     license='MIT',
     py_modules=['dyepy'],
     packages=[],
-    install_requires=['typing'],
+    install_requires=[],
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
