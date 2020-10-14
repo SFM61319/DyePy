@@ -9,6 +9,14 @@ of color representations supported by CSS4 too! Just name it!
 
 Separate documentation for each function and class written with them.
 To read the documentation, type `help(<function/class>)` into the CLI
+
+NOTE: Some conversions/color values (like dyepy.Colors.hsv, hsl) may be
+inaccurate due to floating point properties and type conversions.
+They can't be removed completely (although optimizations are being done)
+But they shouldn't be much of a problem since the errors are very small
+
+Therefore, there is no need to worry. It is not a bug, just a software \
+limitation. In that case, try not to use those functions if you want accuracy
 """
 
 
