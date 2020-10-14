@@ -35,7 +35,7 @@ $ python dyepy.py
 
 __You'll either need to [download dyepy](https://github.com/SFM61319/DyePy/archive/master.zip) or go to the installation folder and run the command from that folder__  
 
-*[that folder]: C:\Users\%UserName%\AppData\Local\Programs\Python\Python3x\lib\site-packages\dyepy\
+*[that folder]: `print(__import__('dyepy').__file__)`
   
 Or you can simply copy/write this example program and run it:  
 
@@ -66,11 +66,14 @@ root = Tk()
 root.title('Usage (Example)')
 root.configure(background=dyepy.Colors.BLACK)
 
-button = Button(root, text='Change color',
-                fg=dyepy.Colors.WHITE,
-                bg=dyepy.Colors.WINDOWSBLUE,
-                command=change_bgcolor,
-                height=10, width=50)
+button = Button(
+    root, text='Change color',
+    fg=dyepy.Colors.WHITE,
+    bg=dyepy.Colors.WINDOWSBLUE,
+    command=change_bgcolor,
+    height=10, width=50
+)
+
 button.grid(row=0, column=0, pady=50, padx=250)
 
 root.mainloop()
