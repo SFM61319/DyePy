@@ -1147,13 +1147,13 @@ def main(clear: bool = False) -> None:
             func = eval(func)
 
         except (SyntaxError, BaseException):
-                if func != '' and not func.isspace():   # Not empty line
-                    func = ''.join((
-                        Styles.Background.RED,
-                        Styles.Foreground.WHITE,
-                        'Invalid statement/function call!',
-                        Styles.RESET
-                    ))
+            if func != '' and not func.isspace():   # Not empty line
+                func = ''.join((
+                    Styles.Background.RED,
+                    Styles.Foreground.WHITE,
+                    'Invalid statement/function call!',
+                    Styles.RESET
+                ))
 
         if func is not None:
             print(func)
