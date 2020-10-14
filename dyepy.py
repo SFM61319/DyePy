@@ -33,6 +33,9 @@ import typing
 # Import `randint` from `random` as `_randint`
 from random import randint as _randint
 
+# Import `system` from `os` as `_system`
+from os import system as _system
+
 
 def clamp(
     value: typing.Union[int, float] = 0.5,
@@ -1130,8 +1133,8 @@ def main(clear: bool = False) -> None:
     """
     
     if clear:
-        __import__('os').system('cls')  # Clears screen in Windows
-        __import__('os').system('clear')    # Clears screen in Unix OSs
+        _system('cls')  # Clears screen in Windows
+        _system('clear')    # Clears screen in Unix OSs
     
     print("Welcome to DyePy's mini command-line interpreter.")
     print("Enter '!exit' to exit.\n")
