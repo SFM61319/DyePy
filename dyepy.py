@@ -1146,7 +1146,10 @@ def main(clear: bool = False) -> None:
         try:
             func = eval(func)
 
-        except (SyntaxError, BaseException):
+        except (SyntaxError, KeyboardInterrupt, BaseException) as e:
+            if e is KeyboardInterrupt:
+                continue
+            
             if func != '' and not func.isspace():   # Not empty line
                 func = ''.join((
                     Styles.Background.RED,
