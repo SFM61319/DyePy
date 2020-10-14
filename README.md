@@ -29,6 +29,7 @@ It is recommended to use the [latest stable version of python](https://www.pytho
 ## Usage (example)
 
 You can either simply run the file to use its own mini command-line (kinda) using:
+
 ```bash
 $ python dyepy.py
 ```  
