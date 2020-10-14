@@ -62,6 +62,8 @@ class Styles:
     A class to help print both foreground and background in different
     styles and colors (both as variables) on a command-line.
     
+    NOTE: All methods and sub-methods are `static`
+    
     Print blue text with green background
     E.g.: print(Styles.Bg.GREEN, Styles.Fg.BLUE, 'Blue text', Styles.RESET)
     
@@ -267,7 +269,8 @@ class Colors:
     Colors class
 
     A class of named Hex color codes as constants
-    that can be used simply by referencing them.
+    (that can be used simply by referencing them), and
+    static methods to convert ABC colorspaces to Hex
     
     These names and values have been inherited from CSS4,
     and there are some extra built-in colors like the
@@ -537,7 +540,9 @@ class Colors:
 # A class to convert colors to-fro different colorspaces
 class Converters:
     """
-    A class of color space converters (static)
+    A class of color space converters
+    
+    NOTE: All methods in this class are `static` methods
     
     Usage:
         dyepy.Converters.hex2rgb(0xffffff)
