@@ -698,7 +698,7 @@ class Converters:
         luminance = (cmax + cmin) / 2
         
         # Saturation calculation
-        saturation = diff / (1 - abs(2 * luminance - 1))
+        saturation = diff / (1 - abs(2 * luminance - 1)) if diff else 0
 
         # Hue calculation
         if diff == 0:
