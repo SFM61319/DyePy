@@ -23,7 +23,7 @@ limitation. In that case, try not to use those functions if you want accuracy
 __author__ = 'SFM61319'
 __email__ = 'svasssakavi@gmail.com'
 __github__ = 'https://github.com/SFM61319/DyePy'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 __desc__ = 'A Python module for all colors and related functions'
 
 
